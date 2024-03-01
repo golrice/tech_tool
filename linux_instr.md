@@ -1,88 +1,134 @@
-# linux 指令  
-长话短说  
+# Linux命令简明教程  
 
-## 文件路径
+本文旨在简述Linux中常用的命令  
+方便开发人员在使用Linux的时候能够高效率处理Linux的文件  
 
-- cd == change directory  
+## 文件系统组织  
+/bin        二进制文件，系统常规命令
+/boot       系统启动分区，系统启动时读取的文件
+/dev        设备文件
+/etc        大多数配置文件
+/home       普通用户的家目录
+/lib        32位函数库
+/lib64      64位库
+/media      手动临时挂载点
+/mnt        手动临时挂载点
+/opt        第三方软件安装位置
+/proc       进程信息及硬件信息
+/root       临时设备的默认挂载点
+/sbin       系统管理命令
+/srv        数据
+/var        数据
+/sys        内核相关信息
+/tmp        临时文件
+/usr        用户相关设定
 
-> 假设目前所在目录是 /c/Users 
-> character 是 Users 的一个文件夹  
-> \$ cd character 可以进入该文件夹 还有  
-> cd ./character  
-> 使用..回到父目录  
-> cd ..  则进入/c/Users
+## 帮助
+面对不认识的命令 或者 想要深入理解的命令  
+如果有时间细看 可以使用以下命令  
+```shell
+[instr] --help
+man [instr]
+```
 
-- ls == list the directory  
+一般而言 命令都有内置参数--help  
+或者使用man命令来查看指令的用法  
 
-- pwd == print working dir
+## 切换目录  
+使用cd指令切换到指定目录  
+```shell
+cd [dir]
+cd -
+```
+cd - 表示切换到上一个所在的目录  
 
-- mv filename1 filename2
-> 此处的filename可以理解为file的相对路径结果
-> 上述写法如果只是name，则是改名效果
-> 如果是另一个文件夹中，则是移动效果
+## 查看目录  
+```shell
+ls # 显示当前目录文件名 和 文件夹名
+ls -a # 也可以使用 la , 在ls的基础上，还把隐藏的文件显示出来  
+ls -l # 也可以使用 ll , 在la的基础上，还显示文件的权限  
+```
 
-- cp filename1 filename2
+## 创建目录
+```shell
+mkdir [dir] # 创建一个路径为dir的目录 如果只有名字，则是在当前目录创建
+```
 
-- echo
-> 使用echo可以创建文件  
-> echo hello > hello\world.txt
+## 删除目录或者文件
+```shell
+rm [file] # 删除路径为file的文件
+rm -r [dir] # 删除路径为dir的目录
+rm -f [file] # 强制删除file
+rm -rf [dir] # 强制删除目录  
+```
 
-- 善用流概念
-- <
-- \>
-- |
-> a < b 表示将b作为a的输入
-> a > b 表示将a作为b的输入
-> a | b 表示a作为b的输入 
+## 移动或者改名
+Linux中没有专门的改名指令  
+但是我们可以利用移动指令来实现改名  
+```shell
+# 如果是相同目录下移动 就相当于改名
+mv [old_file_path] [new_file_path] # 将文件从old_path移动到new_path
+mv -r [old_dir_path] [new_dir_path] # 将目录移动
+```
 
-linux中常用的五十个指令简介
-> ls - The most frequently used command in Linux to list directories
-> pwd - Print working directory command in Linux
-> cd - Linux command to navigate through directories
-> mkdir - Command used to create directories in Linux
-> mv - Move or rename files in Linux
-> cp - Similar usage as mv but for copying files in Linux
-> rm - Delete files or directories
-> touch - Create blank/empty files
-> ln - Create symbolic links (shortcuts) to other files
-> cat - Display file contents on the terminal
-> clear - Clear the terminal display
-> echo - Print any text that follows the command
-> less - Linux command to display paged outputs in the terminal
-> man - Access manual pages for all Linux commands
-> uname - Linux command to get basic information about the OS
-> whoami - Get the active username
-> tar - Command to extract and compress files in Linux
-> grep - Search for a string within an output
-> head - Return the specified number of lines from the top
-> tail - Return the specified number of lines from the bottom
-> diff - Find the difference between two files
-> cmp - Allows you to check if two files are identical
-> comm - Combines the functionality of diff and cmp
-> sort - Linux command to sort the content of a file while outputting
-> export - Export environment variables in Linux
-> zip - Zip files in Linux
-> unzip - Unzip files in Linux
-> ssh - Secure Shell command in Linux
-> service - Linux command to start and stop services
-> ps - Display active processes
-> kill and killall - Kill active processes by process ID or name
-> df - Display disk filesystem information
-> mount - Mount file systems in Linux
-> chmod - Command to change file permissions
-> chown - Command for granting ownership of files or folders
-> ifconfig - Display network interfaces and IP addresses
-> traceroute - Trace all the network hops to reach the destination
-> wget - Direct download files from the internet
-> ufw - Firewall command
-> iptables - Base firewall for all other firewall utilities to interface with
-> apt, pacman, yum, rpm - Package managers depending on the distro
-> sudo - Command to escalate privileges in Linux
-> cal - View a command-line calendar
-> alias - Create custom shortcuts for your regularly used commands
-> dd - Majorly used for creating bootable USB sticks
-> whereis - Locate the binary, source, and manual pages for a command
-> whatis - Find what a command is used for
-> top - View active processes live with their system usage
-> useradd and usermod - Add new user or change existing users data
-> passwd - Create or update passwords for existing users
+## 拷贝
+```shell
+cp [old_file] [new_file]
+cp -r [old_dir] [new_dir]
+```
+
+## 搜索  
+```shell
+find [path] -name 'name' # 查找路径path下名字为'name'的文件
+find [path] -type 'type' # 查找路径path下类型为'type'的文件
+```
+
+## 文件类型
+```shell
+file [file] # 查看文件类型 
+```
+
+## 文件权限
+文件权限有三个  
+1. 'r' 读取权限
+2. 'w' 写权限
+3. 'x' 执行权限
+
+使用ll指令可以查看文件的权限  
+
+修改权限使用chmod指令  
+```shell
+chmod +[mod] [file] # 给file添加mod权限
+chmod -[mod] [file] # 给file删除mod权限 
+```
+
+## 打包压缩
+首先需要区分zip、rar、tar、gz、bz2后缀的区别  
+
+1. zip、rar 表示Windows系统的压缩文件
+2. tar 表示Linux系统的打包文件
+3. gz、bz2 表示Linux系统中两种压缩文件
+
+### tar打包压缩
+首先说明几个常用参数  
+| 参数   | 作用                 |
+| ------ | -------------------- |
+| -c     | 打包                 |
+| -x     | 解包                 |
+| -f     | 指定打包后的名字     |
+| -v     | 展示操作过程         |
+| -z     | gzip压缩文件         |
+| -j     | bzip2 压缩文件       |
+| --list | 列出打包文件中的文件 |
+
+```shell
+tar -cf [bag.tar] [dir] # 将dir目录下所有文件 打包(c) 为 bag.tar(f)
+tar -xf [bag.tar] # 将 bag.tar(f) 解包(x)
+tar -czf [bag.tar.gz] [dir] # 打包的基础上还要压缩  
+tar -xzf [bag.tar.gz] # 解压缩之后解包  
+```
+
+## 系统
+```shell
+uname -a # 显示系统内核、主机、版本等等  
+```
